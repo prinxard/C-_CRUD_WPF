@@ -112,10 +112,6 @@ namespace ZooProjectManager
             ShowAssocAnimals();
         }
 
-        private void AllAnimals_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            
-        }
 
         private void DeleteZoo_Click(object sender, RoutedEventArgs e)
         {
@@ -139,6 +135,126 @@ namespace ZooProjectManager
             }
                 
 
+        }
+
+        private void AddZoo_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                string query = "insert into Zoo values (@Location)";
+                SqlCommand sqlCommand = new SqlCommand(query, sqlCon);
+                sqlCon.Open();
+                sqlCommand.Parameters.AddWithValue("@Location", zooEntryTextBox.Text);
+                sqlCommand.ExecuteScalar();
+                zooEntryTextBox.Clear();
+            }
+            catch (Exception ex)
+            {
+
+                MessageBox.Show(ex.ToString());
+            }
+
+            finally
+            {
+                sqlCon.Close();
+                ShowZoos();
+            }
+
+        }
+
+        private void AddAnimalToZoo_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                string query = "insert into ZooAnimal values (@ZooId, @AnimalId)";
+                SqlCommand sqlCommand = new SqlCommand(query, sqlCon);
+                sqlCon.Open();
+                sqlCommand.Parameters.AddWithValue("@ZooId", ZooList.SelectedValue);
+                sqlCommand.Parameters.AddWithValue("@AnimalId", AllAnimals.SelectedValue);
+                sqlCommand.ExecuteScalar();
+                
+            }
+            catch (Exception ex)
+            {
+
+                MessageBox.Show(ex.ToString());
+            }
+
+            finally
+            {
+                sqlCon.Close();
+                ShowAssocAnimals();
+            }
+        }
+
+        private void RemoveAnimal_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                string query = "delete from Animal where id = @AnimalId";
+                SqlCommand sqlCommand = new SqlCommand(query, sqlCon);
+                sqlCon.Open();
+                sqlCommand.Parameters.AddWithValue("@AnimalId", AssocAnimList.SelectedValue);
+                sqlCommand.ExecuteScalar();
+            }
+            catch (Exception ex)
+            {
+
+                MessageBox.Show(ex.ToString());
+            }
+
+            finally
+            {
+                sqlCon.Close();
+                ShowAssocAnimals();
+            }
+        }
+
+        private void AddAnimal_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                string query = "insert into Animal values (@Name)";
+                SqlCommand sqlCommand = new SqlCommand(query, sqlCon);
+                sqlCon.Open();
+                sqlCommand.Parameters.AddWithValue("@Name", zooEntryTextBox.Text);
+                sqlCommand.ExecuteScalar();
+                zooEntryTextBox.Clear();
+            }
+            catch (Exception ex)
+            {
+
+                MessageBox.Show(ex.ToString());
+            }
+
+            finally
+            {
+                sqlCon.Close();
+                ShowAnimals();
+            }
+        }
+
+        private void DeleteAnimal_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                string query = "delete from Animal where id = @AnimalId";
+                SqlCommand sqlCommand = new SqlCommand(query, sqlCon);
+                sqlCon.Open();
+                sqlCommand.Parameters.AddWithValue("@AnimalId", AllAnimals.SelectedValue);
+                sqlCommand.ExecuteScalar();
+            }
+            catch (Exception ex)
+            {
+
+                MessageBox.Show(ex.ToString());
+            }
+
+            finally
+            {
+                sqlCon.Close();
+                ShowAnimals();
+            }
         }
     }
 }
