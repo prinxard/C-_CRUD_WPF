@@ -93,17 +93,19 @@ namespace ZooProjectManager
                 using (sqlDataAdapter)
                 {
                     sqlCommand.Parameters.AddWithValue("@ZooId", ZooList.SelectedValue);
+
                     DataTable zooDataTable = new DataTable();
+
                     sqlDataAdapter.Fill(zooDataTable);
-                    zooEntryTextBox.Text = zooDataTable.Rows[0]["Location"].ToString();
-                   
+
+                    zooEntryTextBox.Text = zooDataTable.Rows[0]["Location"].ToString();   
                 }
 
             }
             catch (Exception e)
             {
 
-                MessageBox.Show(e.ToString());
+                //MessageBox.Show(e.ToString());
             }
 
         }
@@ -111,7 +113,7 @@ namespace ZooProjectManager
         {
             try
             {
-                string query = "select Name from Animal where id = @AnimalId";
+                string query = "select name from Animal where id = @AnimalId";
                 SqlCommand sqlCommand = new SqlCommand(query, sqlCon);
                 SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(sqlCommand);
 
@@ -128,7 +130,7 @@ namespace ZooProjectManager
             catch (Exception e)
             {
 
-                MessageBox.Show(e.ToString());
+                //MessageBox.Show(e.ToString());
             }
 
         }
@@ -164,7 +166,7 @@ namespace ZooProjectManager
             catch (Exception e)
             {
 
-                MessageBox.Show(e.ToString());
+                //MessageBox.Show(e.ToString());
             }
 
         }
@@ -185,7 +187,7 @@ namespace ZooProjectManager
             catch (Exception ex)
             {
 
-                MessageBox.Show(ex.ToString());
+                //MessageBox.Show(ex.ToString());
             }
 
             finally {
@@ -210,7 +212,7 @@ namespace ZooProjectManager
             catch (Exception ex)
             {
 
-                MessageBox.Show(ex.ToString());
+                //MessageBox.Show(ex.ToString());
             }
 
             finally
@@ -236,7 +238,7 @@ namespace ZooProjectManager
             catch (Exception ex)
             {
 
-                MessageBox.Show(ex.ToString());
+               // MessageBox.Show(ex.ToString());
             }
 
             finally
@@ -246,6 +248,55 @@ namespace ZooProjectManager
             }
         }
 
+        private void UpdateZoo_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                string query = "update Zoo Set Location =@Location where Id =@ZooId";
+                SqlCommand sqlCommand = new SqlCommand(query, sqlCon);
+                sqlCon.Open();
+                sqlCommand.Parameters.AddWithValue("@ZooId", ZooList.SelectedValue);
+                sqlCommand.Parameters.AddWithValue("@Location", zooEntryTextBox.Text);
+                sqlCommand.ExecuteScalar();
+
+            }
+            catch (Exception ex)
+            {
+
+               // MessageBox.Show(ex.ToString());
+            }
+
+            finally
+            {
+                sqlCon.Close();
+                ShowZoos();
+            }
+        }
+
+        private void UpdateAnimals_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                string query = "update Animal Set Name =@Name where Id =@AnimalId";
+                SqlCommand sqlCommand = new SqlCommand(query, sqlCon);
+                sqlCon.Open();
+                sqlCommand.Parameters.AddWithValue("@AnimalId", AllAnimals.SelectedValue);
+                sqlCommand.Parameters.AddWithValue("@Name", zooEntryTextBox.Text);
+                sqlCommand.ExecuteScalar();
+
+            }
+            catch (Exception ex)  
+            {
+
+                //MessageBox.Show(ex.ToString());
+            }
+
+            finally
+            {
+                sqlCon.Close();
+                ShowAnimals();
+            }
+        }
         private void RemoveAnimal_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -259,7 +310,7 @@ namespace ZooProjectManager
             catch (Exception ex)
             {
 
-                MessageBox.Show(ex.ToString());
+               // MessageBox.Show(ex.ToString());
             }
 
             finally
@@ -282,13 +333,14 @@ namespace ZooProjectManager
             catch (Exception ex)
             {
 
-                MessageBox.Show(ex.ToString());
+                //MessageBox.Show(ex.ToString());
             }
 
             finally
             {
                 sqlCon.Close();
                 ShowAnimals();
+                zooEntryTextBox.Clear();
             }
         }
 
@@ -305,7 +357,7 @@ namespace ZooProjectManager
             catch (Exception ex)
             {
 
-                MessageBox.Show(ex.ToString());
+                //MessageBox.Show(ex.ToString());
             }
 
             finally
