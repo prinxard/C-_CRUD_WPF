@@ -270,6 +270,7 @@ namespace ZooProjectManager
             {
                 sqlCon.Close();
                 ShowZoos();
+                zooEntryTextBox.Clear();
             }
         }
 
@@ -295,6 +296,7 @@ namespace ZooProjectManager
             {
                 sqlCon.Close();
                 ShowAnimals();
+                zooEntryTextBox.Clear();
             }
         }
         private void RemoveAnimal_Click(object sender, RoutedEventArgs e)
