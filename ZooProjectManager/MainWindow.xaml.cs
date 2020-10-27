@@ -82,6 +82,68 @@ namespace ZooProjectManager
             }
 
         }
+        private void ShowSelectedZooInTextbox()
+        {
+            try
+            {
+                string query = "select location from Zoo where id = @ZooId";
+                SqlCommand sqlCommand = new SqlCommand(query, sqlCon);
+                SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(sqlCommand);
+
+                using (sqlDataAdapter)
+                {
+                    sqlCommand.Parameters.AddWithValue("@ZooId", ZooList.SelectedValue);
+                    DataTable zooDataTable = new DataTable();
+                    sqlDataAdapter.Fill(zooDataTable);
+                    zooEntryTextBox.Text = zooDataTable.Rows[0]["Location"].ToString();
+                   
+                }
+
+            }
+            catch (Exception e)
+            {
+
+                MessageBox.Show(e.ToString());
+            }
+
+        }
+        private void ShowSelectedAnimalInTextbox()
+        {
+            try
+            {
+                string query = "select Name from Animal where id = @AnimalId";
+                SqlCommand sqlCommand = new SqlCommand(query, sqlCon);
+                SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(sqlCommand);
+
+                using (sqlDataAdapter)
+                {
+                    sqlCommand.Parameters.AddWithValue("@AnimalId", AllAnimals.SelectedValue);
+                    DataTable animalDataTable = new DataTable();
+                    sqlDataAdapter.Fill(animalDataTable);
+                    zooEntryTextBox.Text = animalDataTable.Rows[0]["Name"].ToString();
+
+                }
+
+            }
+            catch (Exception e)
+            {
+
+                MessageBox.Show(e.ToString());
+            }
+
+        }
+
+        private void ZooList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ShowAssocAnimals();
+            ShowSelectedZooInTextbox();
+           
+        }
+        private void AllAnimals_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ShowSelectedAnimalInTextbox();
+        }
+
         private void ShowAnimals()
         {
             try
@@ -107,10 +169,7 @@ namespace ZooProjectManager
 
         }
 
-        private void ZooList_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            ShowAssocAnimals();
-        }
+        
 
 
         private void DeleteZoo_Click(object sender, RoutedEventArgs e)
@@ -146,7 +205,7 @@ namespace ZooProjectManager
                 sqlCon.Open();
                 sqlCommand.Parameters.AddWithValue("@Location", zooEntryTextBox.Text);
                 sqlCommand.ExecuteScalar();
-                zooEntryTextBox.Clear();
+                
             }
             catch (Exception ex)
             {
@@ -219,7 +278,6 @@ namespace ZooProjectManager
                 sqlCon.Open();
                 sqlCommand.Parameters.AddWithValue("@Name", zooEntryTextBox.Text);
                 sqlCommand.ExecuteScalar();
-                zooEntryTextBox.Clear();
             }
             catch (Exception ex)
             {
@@ -256,5 +314,7 @@ namespace ZooProjectManager
                 ShowAnimals();
             }
         }
+
+      
     }
 }

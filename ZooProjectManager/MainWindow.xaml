@@ -29,7 +29,7 @@
                 </TransformGroup>
             </ListBox.RenderTransform>
         </ListBox>
-        <ListBox x:Name="AllAnimals" HorizontalAlignment="Left" Height="285" Margin="405,55,0,0" VerticalAlignment="Top" Width="140" />
+        <ListBox x:Name="AllAnimals" HorizontalAlignment="Left" Height="285" Margin="405,55,0,0" VerticalAlignment="Top" Width="140" SelectionChanged="AllAnimals_SelectionChanged" />
         <Button Content="Delete Zoo" HorizontalAlignment="Left" VerticalAlignment="Top" Width="130" Margin="5,225,0,0" Height="30" Click="DeleteZoo_Click"/>
         <Button Click="AddZoo_Click" Content="Add Zoo" HorizontalAlignment="Left" VerticalAlignment="Top" Width="130" Margin="5,300,0,0" Height="30"/>
         <Button Content="Update Zoo" HorizontalAlignment="Left" VerticalAlignment="Top" Width="130" Margin="5,335,0,0" Height="30"/>
